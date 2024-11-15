@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra EQ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e2e3e5;
+            border-radius: 5px;
+        }
+        #qrCode {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kiểm Tra EQ</h1>
+    <form id="eqForm">
+        <div class="question">
+            <label>Câu hỏi 1: Bạn cảm thấy thế nào khi thấy người khác gặp khó khăn?</label><br>
+            <input type="radio" name="q1" value="1"> Không quan tâm<br>
+            <input type="radio" name="q1" value="2"> Hơi quan tâm<br>
+            <input type="radio" name="q1" value="3"> Rất quan tâm<br>
+        </div>
+        <div class="question">
+            <label>Câu hỏi 2: Bạn có thường xuyên giúp đỡ người khác không?</label><br>
+            <input type="radio" name="q2" value="1"> Không bao giờ<br>
+            <input type="radio" name="q2" value="2"> Thỉnh thoảng<br>
+            <input type="radio" name="q2" value="3"> Thường xuyên<br>
+        </div>
+        <div class="question">
+            <label>Câu hỏi 3: Khi bạn thấy ai đó buồn, bạn thường làm gì?</label><br>
+            <input type="radio" name="q3" value="1"> Bỏ qua<br>
+            <input type="radio" name="q3" value="2"> Hỏi thăm<br>
+            <input type="radio" name="q3" value="3"> Cố gắng an ủi họ<br>
+        </div>
+        <div class="question">
+            <label>Câu hỏi 4: Bạn có thường xuyên tham gia các hoạt động tình nguyện không?</label><br>
+            <input type="radio" name="q4" value="1"> Không bao giờ<br>
+            <input type="radio" name="q4" value="2"> Thỉnh thoảng<br>
+            <input type="radio" name="q4" value="3"> Thường xuyên<br>
+        </div>
+        <div class="question">
+            <label>Câu hỏi 5: Bạn có cảm thấy thoải mái khi chia sẻ cảm xúc của mình với người khác không?</label><br>
+            <input type="radio" name="q5" value="1"> Không<br>
+            <input type="radio" name="q5" value="2"> Có chút<br>
+            <input type="radio" name="q5" value="3"> Rất thoải mái<br>
+        </div>
+        <div class="question">
+            <label>Câu hỏi 6: Bạn có thường xuyên lắng nghe người khác khi họ nói không?</label><br>
+            <input type="radio" name="q6" value="1"> Không bao giờ<br>
+            <input type="radio" name="q6" value="2"> Thỉnh thoảng<br>
+            <input type="radio" name="q6" value="3"> Thường xuyên<br>
+        </div>
+        <div class="question">
+            <label>Câu hỏi 7: Bạn có cảm thấy cần phải giúp đỡ những người xung quanh không?</label><br>
+            <input type="radio" name="q7" value="1"> Không<br>
+            <input type="radio" name="q7" value="2"> Có chút<br>
+            <input type="radio" name="q7" value="3"> Rất cần<br>
+        </div>
+        <div class="question">
+            <label>Câu hỏi 8: Bạn có thường xuyên tham gia vào các hoạt động vì cộng đồng không?</label><br>
+            <input type="radio" name="q8" value="1"> Không bao giờ<br>
+            <input type="radio" name="q8" value="2"> Thỉnh thoảng<br>
+            <input type="radio" name="q8" value="3"> Thường xuyên<br>
+        </div>
+        <button type="button" class="button" onclick="showSuggestions()">Gửi</button>
+    </form>
+    <div class="result" id="result"></div>
+    <div id="qrCode"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function showSuggestions() {
+        let score = 0;
+        const q1 = $('input[name="q1"]:checked').val();
+        const q2 = $('input[name="q2"]:checked').val();
+        const q3 = $('input[name="q3"]:checked').val();
+        const q4 = $('input[name="q4"]:checked').val();
+        const q5 = $('input[name="q5"]:checked').val();
+        const q6 = $('input[name="q6"]:checked').val();
+        const q7 = $('input[name="q7"]:checked').val();
+        const q8 = $('input[name="q8"]:checked').val();
+
+        if (q1) score += parseInt(q1);
+        if (q2) score += parseInt(q2);
+        if (q3) score += parseInt(q3);
+        if (q4) score += parseInt(q4);
+        if (q5) score += parseInt(q5);
+        if (q6) score += parseInt(q6);
+        if (q7) score += parseInt(q7);
+        if (q8) score += parseInt(q8);
+
+        let suggestions = [];
+        if (score <= 8) {
+            suggestions = ['Chăm sóc người già', 'Nhặt rác tại công viên'];
+        } else if (score <= 16) {
+            suggestions = ['Quyên góp cho người vô gia cư', 'Dạy học cho trẻ em nghèo'];
+        } else {
+            suggestions = ['Tham gia các hoạt động từ thiện', 'Tổ chức các buổi hội thảo về sức khỏe tâm thần'];
+        }
+
+        $('#result').html('<strong>Các hoạt động phù hợp cho bạn:</strong><br>' + suggestions.join('<br>')).show();
+        generateQRCode();
+    }
+
+    function generateQRCode() {
+        const url = window.location.href;
+        $('#qrCode').html('<img src="https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(url) + '&size=150x150" alt="QR Code">');
+    }
+</script>
+
+</body>
+</html>
